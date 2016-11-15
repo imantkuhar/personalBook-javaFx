@@ -8,21 +8,26 @@ import model.Contact;
  */
 public class ContactService {
 
-    private ContactDao contactDao;
+    private ContactDao contactDao = new ContactDao();
 
-    public void addContact(Contact contact){
+    public void createDB(){
+        contactDao.createConnection();
+        contactDao.createContactTable();
+    }
+
+    public void addContact(Contact contact) {
         contactDao.addContact(contact);
     }
 
-    public void deleteContact(){
-
+    public void deleteContact(Contact contact, int contactId) {
+        contactDao.deleteContact(contact, contactId);
     }
 
-    public void getAllContacts(){
-
+    public void getAllContacts() {
+        contactDao.getAllContacts();
     }
 
-    public void updateContact(Contact contact){
-
+    public void updateContact(Contact contact) {
+        contactDao.updateContact(contact);
     }
 }
