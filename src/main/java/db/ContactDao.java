@@ -1,12 +1,18 @@
 package db;
 
+import com.sun.xml.internal.ws.server.ServerRtException;
 import model.Contact;
+import utils.PropertiesHolder;
 
 import java.io.File;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Imant on 14.11.16.
@@ -18,7 +24,6 @@ public class ContactDao {
     private static ContactDao instance;
 
     static final String DB_URL = "jdbc:sqlite:/home/roma/Рабочий стол/contactDataBase.db";
-    File filePath = new File("/home/roma/Рабочий стол/");
 
     public static ContactDao getInstance() {
         if (instance == null)
@@ -75,12 +80,19 @@ public class ContactDao {
             String address = contact.getAddress();
             String group = contact.getGroup();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String DATE_TIME_FORMAT = PropertiesHolder.getProperty("DATE_TIME_FORMAT");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
             LocalDateTime dateTime = LocalDateTime.now();
             String formattedDateTime = dateTime.format(formatter);
 
             statement.execute("INSERT INTO  'CONTACT' ('name', 'phoneNumber', 'address', 'groups', 'date') " +
                     "VALUES ('" + name + "','" + phoneNumber + "','" + address + "','" + group + "','" + formattedDateTime + "')");
+
+            String getContactId = "SELECT id FROM CONTACT ORDER BY id DESC LIMIT 1;";
+            ResultSet resultSet = statement.executeQuery(getContactId);
+            String contactId = resultSet.getString("id");
+            contact.setId(Integer.parseInt(contactId));
+            System.out.println(contact.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,6 +100,7 @@ public class ContactDao {
 
     public void deleteContact(Contact contact) {
         int id = contact.getId();
+        System.out.println(id);
         try {
             statement.execute("DELETE FROM CONTACT WHERE id = " + id + ";");
         } catch (SQLException e) {
@@ -97,7 +110,8 @@ public class ContactDao {
 
     public List<Contact> getAllContacts() throws SQLException {
         Statement statement = null;
-        String query = " SELECT * FROM CONTACT;";
+        String query = "SELECT * FROM CONTACT;";
+        List contactList = new ArrayList<Contact>();
 
         try {
             statement = connection.createStatement();
@@ -108,17 +122,31 @@ public class ContactDao {
                 String phoneNumber = resultSet.getString("phoneNumber");
                 String address = resultSet.getString("address");
                 String groups = resultSet.getString("groups");
-                System.out.println(id + " " + name + " " + phoneNumber + " " + address + " " + groups);
+
+                Contact contact = new Contact();
+                contact.setId(id); contact.setName(name); contact.setPhoneNumber(phoneNumber); contact.setAddress(address); contact.setGroup(groups);
+
+                try {
+                    String DATE_TIME_FORMAT = PropertiesHolder.getProperty("DATE_TIME_FORMAT");
+                    DateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+                    String dateFromDB = resultSet.getString("date");
+                    Date formattedDate = dateFormat.parse(dateFromDB);
+                    contact.setDate(formattedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(contact.toString());
+                contactList.add(contact);
             }
         } finally {
             if (statement != null) {
                 statement.close();
             }
         }
-        return null;
+        return contactList;
     }
 
     public void updateContact(Contact contact) {
-
     }
 }

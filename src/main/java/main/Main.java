@@ -1,7 +1,7 @@
 package main;
 
 import model.Contact;
-import service.ContactService;
+import service.ContactServiceImpl;
 
 import java.sql.SQLException;
 
@@ -13,14 +13,20 @@ public class Main {
         Contact contact1 = new Contact("Ivan", "067-684-2475", "Lviv", "Friend");
         Contact contact2 = new Contact("Dima", "093-243-5861", "Odessa", "Job");
         Contact contact3 = new Contact("Roma", "097-385-8713", "Kiev", "Genesis Group");
-        ContactService contactService = new ContactService();
-
+        Contact contact4 = new Contact("Andrey", "093-243-5861", "Kharkiv", "Job");
+        ContactServiceImpl contactService = new ContactServiceImpl();
+//
+        contactService.addContact(contact4);
         contactService.addContact(contact1);
         contactService.addContact(contact2);
         contactService.addContact(contact3);
 
-        contactService.deleteContact(contact1);
 
+        contactService.getAllContacts();
+
+        contactService.deleteContact(contact4);
+        System.out.println();
+        System.out.println();
         contactService.getAllContacts();
     }
 }

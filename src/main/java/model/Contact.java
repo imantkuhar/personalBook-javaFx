@@ -12,7 +12,7 @@ public class Contact {
     private String phoneNumber;
     private String address;
     private String group;
-    private LocalDateTime date;
+    private Date date;
 
     public Contact() {
     }
@@ -64,11 +64,11 @@ public class Contact {
         this.group = group;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -83,4 +83,5 @@ public class Contact {
                 ", date=" + date +
                 '}';
     }
+
 }

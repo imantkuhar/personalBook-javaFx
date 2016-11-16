@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Created by Imant on 16.11.16.
+ * Created by Imant on 30.10.16.
  */
 public class PropertiesHolder {
 
@@ -25,4 +25,3 @@ public class PropertiesHolder {
         return PROPERTIES.getProperty(key);
     }
 }
-

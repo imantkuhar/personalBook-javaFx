@@ -1,34 +1,19 @@
 package service;
 
-import db.ContactDao;
 import model.Contact;
 
 import java.sql.SQLException;
 
 /**
- * Created by Imant on 14.11.16.
+ * Created by Imant on 16.11.16.
  */
-public class ContactService {
+public interface ContactService {
 
-    private ContactDao contactDao;
+    void addContact(Contact contact);
 
-    public ContactService() {
-        contactDao = ContactDao.getInstance();
-    }
+    void deleteContact(Contact contact);
 
-    public void addContact(Contact contact) {
-        contactDao.addContact(contact);
-    }
+    void getAllContacts() throws SQLException;
 
-    public void deleteContact(Contact contact) {
-        contactDao.deleteContact(contact);
-    }
-
-    public void getAllContacts() throws SQLException {
-        contactDao.getAllContacts();
-    }
-
-    public void updateContact(Contact contact) {
-        contactDao.updateContact(contact);
-    }
+    void updateContact(Contact contact);
 }
