@@ -1,6 +1,5 @@
 package db;
 
-import com.sun.xml.internal.ws.server.ServerRtException;
 import model.Contact;
 import utils.PropertiesHolder;
 
