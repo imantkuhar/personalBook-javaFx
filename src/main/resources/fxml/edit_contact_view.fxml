@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditContactController">
+   <children>
+      <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Name" />
+      <Button layoutX="20.0" layoutY="80.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Phone number" />
+      <Button layoutX="20.0" layoutY="140.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Address" />
+      <Button layoutX="20.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Group" />
+      <TextField layoutX="223.0" layoutY="20.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField layoutX="223.0" layoutY="80.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField layoutX="223.0" layoutY="140.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField layoutX="223.0" layoutY="200.0" prefHeight="40.0" prefWidth="245.0" />
+      <Button layoutX="366.0" layoutY="258.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="Save changes" />
+   </children>
+</Pane>
