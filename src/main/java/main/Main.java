@@ -25,7 +25,7 @@ public class Main{
 
         contactService.getAllContacts();
 
-        contactService.deleteContact(contact4);
+        contactService.deleteContactById(1);
         System.out.println();
         System.out.println();
         contactService.getAllContacts();

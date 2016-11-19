@@ -3,15 +3,15 @@ package db;
 import model.Contact;
 import utils.PropertiesHolder;
 
-import java.io.File;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Imant on 14.11.16.
@@ -96,11 +96,10 @@ public class ContactDao {
         }
     }
 
-    public void deleteContact(Contact contact) {
-        int id = contact.getId();
-        System.out.println(id);
+    public void deleteContact(int id) {
         try {
             statement.execute("DELETE FROM CONTACT WHERE id = " + id + ";");
+            System.out.println("successfuly deleted by id:" + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -122,7 +121,11 @@ public class ContactDao {
                 String groups = resultSet.getString("groups");
 
                 Contact contact = new Contact();
-                contact.setId(id); contact.setName(name); contact.setPhoneNumber(phoneNumber); contact.setAddress(address); contact.setGroup(groups);
+                contact.setId(id);
+                contact.setName(name);
+                contact.setPhoneNumber(phoneNumber);
+                contact.setAddress(address);
+                contact.setGroup(groups);
 
                 try {
                     String DATE_TIME_FORMAT = PropertiesHolder.getProperty("DATE_TIME_FORMAT");
@@ -146,5 +149,6 @@ public class ContactDao {
     }
 
     public void updateContact(Contact contact) {
+
     }
 }

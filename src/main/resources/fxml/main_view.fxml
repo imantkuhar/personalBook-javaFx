@@ -6,10 +6,18 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainViewController">
    <children>
-      <TextField fx:id="tfFindContact" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="300.0" />
-      <ListView fx:id="contactList" layoutX="14.0" layoutY="68.0" prefHeight="226.0" prefWidth="300.0" />
-      <Button fx:id="btAdd" layoutX="331.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="+" />
-      <Button fx:id="btDelete" layoutX="411.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="-" />
-      <ChoiceBox layoutX="331.0" layoutY="68.0" prefHeight="26.0" prefWidth="140.0" />
+      <TextField fx:id="tfFindContact" layoutX="15.0" layoutY="15.0" prefHeight="40.0" prefWidth="380.0" />
+      <Button fx:id="btAdd" layoutX="410.0" layoutY="15.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="+" />
+      <Button fx:id="btDelete" layoutX="410.0" layoutY="70.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="-" />
+      <ChoiceBox layoutX="410.0" layoutY="125.0" prefHeight="25.0" prefWidth="60.0" />
+      <TableView fx:id="tvContactList" layoutX="14.0" layoutY="70.0" prefHeight="226.0" prefWidth="380.0">
+        <columns>
+          <TableColumn fx:id="tcId" prefWidth="27.0" text="id" />
+          <TableColumn fx:id="tcName" prefWidth="81.0" text="Name" />
+           <TableColumn fx:id="tcNumber" prefWidth="121.0" text="Number" />
+            <TableColumn fx:id="tcAddress" minWidth="0.0" prefWidth="88.0" text="Address" />
+            <TableColumn fx:id="tcGroup" prefWidth="61.0" text="Group" />
+        </columns>
+      </TableView>
    </children>
 </Pane>

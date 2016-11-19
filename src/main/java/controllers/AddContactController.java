@@ -45,6 +45,9 @@ public class AddContactController implements Initializable {
                 if (contactValidator.checkAllTextField(newContact)){
                     contactService.addContact(newContact);
                 }
+                Stage mainStage = StartFxApp.getInstance().getMainStage();
+                Scene mainScene = StartFxApp.getInstance().getMainScene();
+                mainStage.setScene(mainScene);
             }
         });
     }

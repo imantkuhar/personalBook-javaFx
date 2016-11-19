@@ -4,6 +4,7 @@ import db.ContactDao;
 import model.Contact;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Imant on 14.11.16.
@@ -20,12 +21,12 @@ public class ContactServiceImpl implements ContactService {
         contactDao.addContact(contact);
     }
 
-    public void deleteContact(Contact contact) {
-        contactDao.deleteContact(contact);
+    public void deleteContactById(int id) {
+        contactDao.deleteContact(id);
     }
 
-    public void getAllContacts() throws SQLException {
-        contactDao.getAllContacts();
+    public List<Contact> getAllContacts() throws SQLException {
+        return contactDao.getAllContacts();
     }
 
     public void updateContact(Contact contact) {
