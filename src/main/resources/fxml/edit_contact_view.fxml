@@ -6,14 +6,14 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditContactController">
    <children>
-      <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Name" />
-      <Button layoutX="20.0" layoutY="80.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Phone number" />
-      <Button layoutX="20.0" layoutY="140.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Address" />
-      <Button layoutX="20.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="155.0" text="Group" />
-      <TextField layoutX="223.0" layoutY="20.0" prefHeight="40.0" prefWidth="245.0" />
-      <TextField layoutX="223.0" layoutY="80.0" prefHeight="40.0" prefWidth="245.0" />
-      <TextField layoutX="223.0" layoutY="140.0" prefHeight="40.0" prefWidth="245.0" />
-      <TextField layoutX="223.0" layoutY="200.0" prefHeight="40.0" prefWidth="245.0" />
-      <Button layoutX="366.0" layoutY="258.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="Save changes" />
+      <Label layoutX="20.0" layoutY="20.0" prefHeight="40.0" prefWidth="155.0" text="NAME" textAlignment="CENTER" />
+      <Label layoutX="20.0" layoutY="80.0" prefHeight="40.0" prefWidth="155.0" text="PHONE NUMBER" textAlignment="CENTER" />
+      <Label layoutX="20.0" layoutY="140.0" prefHeight="40.0" prefWidth="155.0" text="ADDRESS" textAlignment="CENTER" />
+      <Label layoutX="20.0" layoutY="200.0" prefHeight="40.0" prefWidth="155.0" text="GROUP" textAlignment="CENTER" />
+      <TextField fx:id="tfName" layoutX="223.0" layoutY="20.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField fx:id="tfPhoneNumber" layoutX="223.0" layoutY="80.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField fx:id="tfAddress" layoutX="223.0" layoutY="140.0" prefHeight="40.0" prefWidth="245.0" />
+      <TextField fx:id="tfGroup" layoutX="223.0" layoutY="200.0" prefHeight="40.0" prefWidth="245.0" />
+      <Button fx:id="btSaveChanges" layoutX="323.0" layoutY="258.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="SAVE CHANGES" />
    </children>
 </Pane>

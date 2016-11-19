@@ -6,10 +6,10 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainViewController">
    <children>
-      <TextField layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="300.0" />
-      <ListView layoutX="14.0" layoutY="68.0" prefHeight="226.0" prefWidth="300.0" />
-      <Button layoutX="331.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="+" />
-      <Button layoutX="411.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="-" />
+      <TextField fx:id="tfFindContact" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="300.0" />
+      <ListView fx:id="contactList" layoutX="14.0" layoutY="68.0" prefHeight="226.0" prefWidth="300.0" />
+      <Button fx:id="btAdd" layoutX="331.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="+" />
+      <Button fx:id="btDelete" layoutX="411.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="-" />
       <ChoiceBox layoutX="331.0" layoutY="68.0" prefHeight="26.0" prefWidth="140.0" />
    </children>
 </Pane>

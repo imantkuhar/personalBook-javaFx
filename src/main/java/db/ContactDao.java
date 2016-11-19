@@ -91,7 +91,6 @@ public class ContactDao {
             ResultSet resultSet = statement.executeQuery(getContactId);
             String contactId = resultSet.getString("id");
             contact.setId(Integer.parseInt(contactId));
-            System.out.println(contact.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
