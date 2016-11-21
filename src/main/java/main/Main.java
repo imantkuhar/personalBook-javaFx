@@ -17,17 +17,16 @@ public class Main{
         Contact contact4 = new Contact("Andrey", "093-243-5861", "Kharkiv", "Job");
         ContactServiceImpl contactService = new ContactServiceImpl();
 
-        contactService.addContact(contact4);
         contactService.addContact(contact1);
         contactService.addContact(contact2);
         contactService.addContact(contact3);
+        contactService.addContact(contact4);
 
 
-        contactService.getAllContacts();
+//        contactService.getAllContacts();
 
-        contactService.deleteContactById(1);
-        System.out.println();
-        System.out.println();
-        contactService.getAllContacts();
+//        contactService.deleteContactById(1);
+
+//        contactService.getAllContacts();
     }
 }

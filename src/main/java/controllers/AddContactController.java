@@ -42,11 +42,12 @@ public class AddContactController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Contact newContact = new Contact(tfName.getText(), tfPhoneNumber.getText(), tfAddress.getText(), tfGroup.getText());
-                if (contactValidator.checkAllTextField(newContact)){
+                if (contactValidator.checkAllTextField(newContact)) {
                     contactService.addContact(newContact);
                 }
                 Stage mainStage = StartFxApp.getInstance().getMainStage();
                 Scene mainScene = StartFxApp.getInstance().getMainScene();
+                mainStage.setTitle("Personal Book");
                 mainStage.setScene(mainScene);
             }
         });

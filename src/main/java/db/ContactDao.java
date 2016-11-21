@@ -99,7 +99,6 @@ public class ContactDao {
     public void deleteContact(int id) {
         try {
             statement.execute("DELETE FROM CONTACT WHERE id = " + id + ";");
-            System.out.println("successfuly deleted by id:" + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,8 +135,6 @@ public class ContactDao {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                System.out.println(contact.toString());
                 contactList.add(contact);
             }
         } finally {

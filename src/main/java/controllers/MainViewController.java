@@ -5,7 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,6 +16,7 @@ import model.Contact;
 import service.ContactServiceImpl;
 import ui.StartFxApp;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -23,7 +26,7 @@ import java.util.ResourceBundle;
  */
 public class MainViewController implements Initializable {
     @FXML
-    private Button btAdd, btDelete;
+    private Button btAdd, btDelete, btEdit, btUpdateTable;
     @FXML
     private TextField tfFindContact;
     @FXML
@@ -41,6 +44,24 @@ public class MainViewController implements Initializable {
         initContactListView();
         setButtonAddContact();
         setButtonDeleteContact();
+        setButtonUpdateContact();
+        setButtonUpdateNowContact();
+    }
+
+
+
+    private void setButtonUpdateNowContact() {
+        btUpdateTable.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    contactList = FXCollections.observableArrayList(contactService.getAllContacts());
+                    tvContactList.setItems(contactList);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initContactListView() {
@@ -77,6 +98,35 @@ public class MainViewController implements Initializable {
                     Contact contact = contactList.get(id);
                     contactService.deleteContactById(contact.getId());
                     contactList.remove(id);
+                }
+            }
+        });
+    }
+
+    private void setButtonUpdateContact() {
+        btEdit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int id = tvContactList.getSelectionModel().getSelectedIndex();
+                if (id != -1) {
+                    Contact contact = contactList.get(id);
+
+                    EditContactController editContactController = new EditContactController();
+                    editContactController.setContact(contact);
+
+                    FXMLLoader fxmlEditContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/edit_contact_view.fxml"));
+                    fxmlEditContact.setController(editContactController);
+                    Parent parent = null;
+                    try {
+                         parent = fxmlEditContact.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Scene editContactScene = new Scene(parent);
+                    Stage mainStage = StartFxApp.getInstance().getMainStage();
+                    mainStage.setScene(editContactScene);
+
                 }
             }
         });
