@@ -11,10 +11,12 @@ import javafx.stage.Stage;
 import model.Contact;
 import service.ContactServiceImpl;
 import ui.StartFxApp;
+import utils.PropertiesHolder;
 import validators.ContactValidator;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.PrimitiveIterator;
 import java.util.ResourceBundle;
 
 /**
@@ -48,7 +50,6 @@ public class AddContactController implements Initializable {
                 }
                 Stage mainStage = StartFxApp.getInstance().getMainStage();
                 Scene mainScene = StartFxApp.getInstance().getMainScene();
-                mainStage.setTitle("Personal Book");
                 mainStage.setScene(mainScene);
             }
         });

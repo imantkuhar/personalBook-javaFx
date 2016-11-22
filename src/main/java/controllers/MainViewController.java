@@ -9,12 +9,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Contact;
 import service.ContactServiceImpl;
 import ui.StartFxApp;
+import utils.PropertiesHolder;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,15 +30,13 @@ import java.util.ResourceBundle;
  */
 public class MainViewController implements Initializable {
     @FXML
-    private Button btAdd, btDelete, btEdit, btUpdateTable;
+    private Button btAdd, btDelete, btEdit, btUpdateTable, btSearchByName, btSearchByNumber;
     @FXML
     private TextField tfFindContact;
     @FXML
     private TableView<Contact> tvContactList;
     @FXML
     private TableColumn tcId, tcName, tcNumber, tcAddress, tcGroup;
-    @FXML
-    private ChoiceBox choiceBox;
     private ObservableList<Contact> contactList;
 
     private ContactServiceImpl contactService = new ContactServiceImpl();
@@ -46,6 +48,8 @@ public class MainViewController implements Initializable {
         setButtonDeleteContactListener();
         setButtonEditContactListener();
         setButtonUpdateContactListListener();
+        setButtonSearchByNameContactListener();
+        setButtonSearchByNumberContactListener();
     }
 
     private void initContactListView() {
@@ -98,7 +102,8 @@ public class MainViewController implements Initializable {
                     EditContactController editContactController = new EditContactController();
                     editContactController.setContact(contact);
 
-                    FXMLLoader fxmlEditContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/edit_contact_view.fxml"));
+                    String EDIT_CONTACT_VIEW_ROOT = PropertiesHolder.getProperty("EDIT_CONTACT_VIEW_ROOT");
+                    FXMLLoader fxmlEditContact = new FXMLLoader(getClass().getClassLoader().getResource(EDIT_CONTACT_VIEW_ROOT));
                     fxmlEditContact.setController(editContactController);
                     Parent parent = null;
 
@@ -126,6 +131,34 @@ public class MainViewController implements Initializable {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+
+    private void setButtonSearchByNameContactListener() {
+        btSearchByName.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String stringForSearch = tfFindContact.getText();
+                if (!stringForSearch.isEmpty()) {
+                    contactList = FXCollections.observableArrayList(contactService.getAllContactByName(stringForSearch));
+                    tvContactList.setItems(contactList);
+                }
+                tfFindContact.setText("");
+            }
+        });
+    }
+
+    private void setButtonSearchByNumberContactListener() {
+        btSearchByNumber.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String stringForSearch = tfFindContact.getText();
+                if (!stringForSearch.isEmpty()) {
+                    contactList = FXCollections.observableArrayList(contactService.getAllContactByPhoneNumber(stringForSearch));
+                    tvContactList.setItems(contactList);
+                }
+                tfFindContact.setText("");
             }
         });
     }

@@ -17,4 +17,8 @@ public interface ContactService {
     List<Contact> getAllContacts() throws SQLException;
 
     void updateContact(Contact contact);
+
+    List<Contact> getAllContactByName(String string);
+
+    List<Contact> getAllContactByPhoneNumber(String string);
 }

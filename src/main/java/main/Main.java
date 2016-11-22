@@ -21,12 +21,5 @@ public class Main{
         contactService.addContact(contact2);
         contactService.addContact(contact3);
         contactService.addContact(contact4);
-
-
-//        contactService.getAllContacts();
-
-//        contactService.deleteContactById(1);
-
-//        contactService.getAllContacts();
     }
 }

@@ -72,20 +72,21 @@ public class StartFxApp extends Application {
 //        FXMLLoader fxmlMainLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/main_view.fxml"));
 //        mainViewController = fxmlMainLoader.<MainViewController>getController();
 //
-//        FXMLLoader fxmlAddContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_new _contact_view.fxml"));
+//        FXMLLoader fxmlAddContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_new_contact_view.fxml"));
 //        addContactController = fxmlAddContact.<AddContactController>getController();
 
-        String mainViewRoot = PropertiesHolder.getProperty("mainViewRoot");
-        String addNewContactViewRoot = PropertiesHolder.getProperty("addNewContactViewRoot");
+        String MAIN_VIEW_ROOT = PropertiesHolder.getProperty("MAIN_VIEW_ROOT");
+        String ADD_NEW_CONTACT_VIEW_ROOT = PropertiesHolder.getProperty("ADD_NEW_CONTACT_VIEW_ROOT");
 
-        Parent mainParent = FXMLLoader.load(getClass().getClassLoader().getResource(mainViewRoot));
-        Parent addContactParent = FXMLLoader.load(getClass().getClassLoader().getResource(addNewContactViewRoot));
+        Parent mainParent = FXMLLoader.load(getClass().getClassLoader().getResource(MAIN_VIEW_ROOT));
+        Parent addContactParent = FXMLLoader.load(getClass().getClassLoader().getResource(ADD_NEW_CONTACT_VIEW_ROOT));
 
         mainScene = new Scene(mainParent);
         addContactScene = new Scene(addContactParent);
 
         mainStage = stage;
-        mainStage.setTitle("Personal Book");
+        String PERSONAL_BOOK_TITLE = PropertiesHolder.getProperty("PERSONAL_BOOK_TITLE");
+        mainStage.setTitle(PERSONAL_BOOK_TITLE);
         mainStage.setScene(mainScene);
         mainStage.show();
     }

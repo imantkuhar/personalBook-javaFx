@@ -22,7 +22,7 @@ public class ContactDao {
     private Statement statement = null;
     private static ContactDao instance;
 
-    static final String DB_URL = "jdbc:sqlite:/home/roma/Рабочий стол/contactDataBase.db";
+    static String DB_URL = PropertiesHolder.getProperty("DB_URL");
 
     public static ContactDao getInstance() {
         if (instance == null)
@@ -116,14 +116,14 @@ public class ContactDao {
                 String name = resultSet.getString("name");
                 String phoneNumber = resultSet.getString("phoneNumber");
                 String address = resultSet.getString("address");
-                String groups = resultSet.getString("groups");
+                String group = resultSet.getString("groups");
 
                 Contact contact = new Contact();
                 contact.setId(id);
                 contact.setName(name);
                 contact.setPhoneNumber(phoneNumber);
                 contact.setAddress(address);
-                contact.setGroup(groups);
+                contact.setGroup(group);
 
                 try {
                     String DATE_TIME_FORMAT = PropertiesHolder.getProperty("DATE_TIME_FORMAT");
@@ -157,5 +157,64 @@ public class ContactDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Contact> getAllContactByName(String stringForSearch) {
+        List<Contact> contactListByName = null;
+        ResultSet resultSet = null;
+
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM 'CONTACT' WHERE name LIKE'" + stringForSearch + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactListByName = convertResultSetToContactList(resultSet);
+    }
+
+    public List<Contact> getAllContactByPhoneNumber(String stringForSearch) {
+        List<Contact> contactListByPhoneNumber = null;
+        ResultSet resultSet = null;
+
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM 'CONTACT' WHERE phoneNumber LIKE'" + stringForSearch + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactListByPhoneNumber = convertResultSetToContactList(resultSet);
+    }
+
+    public List<Contact> convertResultSetToContactList(ResultSet resultSet) {
+        List contactList = new ArrayList<Contact>();
+        try {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String phoneNumber = resultSet.getString("phoneNumber");
+                String address = resultSet.getString("address");
+                String group = resultSet.getString("groups");
+                System.out.println(name);
+
+                Contact contact = new Contact();
+                contact.setId(id);
+                contact.setName(name);
+                contact.setPhoneNumber(phoneNumber);
+                contact.setAddress(address);
+                contact.setGroup(group);
+
+                try {
+                    String DATE_TIME_FORMAT = PropertiesHolder.getProperty("DATE_TIME_FORMAT");
+                    DateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+                    String dateFromDB = resultSet.getString("date");
+                    Date formattedDate = dateFormat.parse(dateFromDB);
+                    contact.setDate(formattedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                contactList.add(contact);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactList;
     }
 }

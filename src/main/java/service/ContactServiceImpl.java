@@ -32,4 +32,12 @@ public class ContactServiceImpl implements ContactService {
     public void updateContact(Contact contact) {
         contactDao.updateContact(contact);
     }
+
+    public List<Contact> getAllContactByName(String stringForSearch) {
+        return contactDao.getAllContactByName(stringForSearch);
+    }
+
+    public List<Contact> getAllContactByPhoneNumber(String stringForSearch) {
+        return contactDao.getAllContactByPhoneNumber(stringForSearch);
+    }
 }
