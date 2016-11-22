@@ -4,11 +4,11 @@ import controllers.AddContactController;
 import controllers.EditContactController;
 import controllers.MainViewController;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.PropertiesHolder;
 
 /**
  * Created by Imant on 17.11.16.
@@ -75,15 +75,14 @@ public class StartFxApp extends Application {
 //        FXMLLoader fxmlAddContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_new _contact_view.fxml"));
 //        addContactController = fxmlAddContact.<AddContactController>getController();
 
+        String mainViewRoot = PropertiesHolder.getProperty("mainViewRoot");
+        String addNewContactViewRoot = PropertiesHolder.getProperty("addNewContactViewRoot");
 
-
-        Parent mainParent = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/main_view.fxml"));
-        Parent addContactParent = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/add_new _contact_view.fxml"));
-//        Parent editContactParent = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/edit_contact_view.fxml"));
+        Parent mainParent = FXMLLoader.load(getClass().getClassLoader().getResource(mainViewRoot));
+        Parent addContactParent = FXMLLoader.load(getClass().getClassLoader().getResource(addNewContactViewRoot));
 
         mainScene = new Scene(mainParent);
         addContactScene = new Scene(addContactParent);
-//        editContactScene = new Scene(editContactParent);
 
         mainStage = stage;
         mainStage.setTitle("Personal Book");

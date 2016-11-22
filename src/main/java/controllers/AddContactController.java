@@ -44,6 +44,7 @@ public class AddContactController implements Initializable {
                 Contact newContact = new Contact(tfName.getText(), tfPhoneNumber.getText(), tfAddress.getText(), tfGroup.getText());
                 if (contactValidator.checkAllTextField(newContact)) {
                     contactService.addContact(newContact);
+                    tfName.setText(""); tfPhoneNumber.setText(""); tfAddress.setText(""); tfGroup.setText("");
                 }
                 Stage mainStage = StartFxApp.getInstance().getMainStage();
                 Scene mainScene = StartFxApp.getInstance().getMainScene();

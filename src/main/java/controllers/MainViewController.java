@@ -42,26 +42,10 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initContactListView();
-        setButtonAddContact();
-        setButtonDeleteContact();
-        setButtonUpdateContact();
-        setButtonUpdateNowContact();
-    }
-
-
-
-    private void setButtonUpdateNowContact() {
-        btUpdateTable.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    contactList = FXCollections.observableArrayList(contactService.getAllContacts());
-                    tvContactList.setItems(contactList);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        setButtonAddContactListener();
+        setButtonDeleteContactListener();
+        setButtonEditContactListener();
+        setButtonUpdateContactListListener();
     }
 
     private void initContactListView() {
@@ -78,7 +62,7 @@ public class MainViewController implements Initializable {
         }
     }
 
-    private void setButtonAddContact() {
+    private void setButtonAddContactListener() {
         btAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -89,7 +73,7 @@ public class MainViewController implements Initializable {
         });
     }
 
-    private void setButtonDeleteContact() {
+    private void setButtonDeleteContactListener() {
         btDelete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -103,7 +87,7 @@ public class MainViewController implements Initializable {
         });
     }
 
-    private void setButtonUpdateContact() {
+    private void setButtonEditContactListener() {
         btEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -117,8 +101,9 @@ public class MainViewController implements Initializable {
                     FXMLLoader fxmlEditContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/edit_contact_view.fxml"));
                     fxmlEditContact.setController(editContactController);
                     Parent parent = null;
+
                     try {
-                         parent = fxmlEditContact.load();
+                        parent = fxmlEditContact.load();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -126,7 +111,20 @@ public class MainViewController implements Initializable {
                     Scene editContactScene = new Scene(parent);
                     Stage mainStage = StartFxApp.getInstance().getMainStage();
                     mainStage.setScene(editContactScene);
+                }
+            }
+        });
+    }
 
+    private void setButtonUpdateContactListListener() {
+        btUpdateTable.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    contactList = FXCollections.observableArrayList(contactService.getAllContacts());
+                    tvContactList.setItems(contactList);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });

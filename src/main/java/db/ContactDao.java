@@ -105,7 +105,6 @@ public class ContactDao {
     }
 
     public List<Contact> getAllContacts() throws SQLException {
-        Statement statement = null;
         String query = "SELECT * FROM CONTACT;";
         List contactList = new ArrayList<Contact>();
 
@@ -146,6 +145,17 @@ public class ContactDao {
     }
 
     public void updateContact(Contact contact) {
-
+        int id = contact.getId();
+        String name = contact.getName();
+        String phoneNumber = contact.getPhoneNumber();
+        String address = contact.getAddress();
+        String group = contact.getGroup();
+        try {
+            statement.execute("UPDATE CONTACT SET " +
+                    "name = '" + name + "', phoneNumber = '" + phoneNumber + "', address = '" + address + "', groups = '" + group + "' " +
+                    "WHERE id = '" + id + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
