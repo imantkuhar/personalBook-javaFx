@@ -17,20 +17,20 @@ public class ContactServiceImpl implements ContactService {
         contactDao = ContactDao.getInstance();
     }
 
-    public void addContact(Contact contact) {
+    public void addContact(Contact contact) throws SQLException {
         contactDao.addContact(contact);
     }
 
-    public void deleteContactById(int id) {
+    public void deleteContactById(int id) throws SQLException {
         contactDao.deleteContact(id);
     }
 
-    public List<Contact> getAllContacts() throws SQLException {
-        return contactDao.getAllContacts();
+    public void updateContact(Contact contact) throws SQLException {
+        contactDao.updateContact(contact);
     }
 
-    public void updateContact(Contact contact) {
-        contactDao.updateContact(contact);
+    public List<Contact> getAllContacts() {
+        return contactDao.getAllContacts();
     }
 
     public List<Contact> getAllContactByName(String stringForSearch) {
@@ -39,5 +39,9 @@ public class ContactServiceImpl implements ContactService {
 
     public List<Contact> getAllContactByPhoneNumber(String stringForSearch) {
         return contactDao.getAllContactByPhoneNumber(stringForSearch);
+    }
+
+    public List<Contact> getAllContactByString(String stringForSearch) {
+        return contactDao.getAllContactByString(stringForSearch);
     }
 }

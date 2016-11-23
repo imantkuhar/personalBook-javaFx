@@ -10,15 +10,17 @@ import java.util.List;
  */
 public interface ContactService {
 
-    void addContact(Contact contact);
+    void addContact(Contact contact) throws SQLException;
 
-    void deleteContactById(int id);
+    void deleteContactById(int id) throws SQLException;
 
-    List<Contact> getAllContacts() throws SQLException;
+    void updateContact(Contact contact) throws SQLException;
 
-    void updateContact(Contact contact);
+    List<Contact> getAllContacts();
 
     List<Contact> getAllContactByName(String string);
 
     List<Contact> getAllContactByPhoneNumber(String string);
+
+    List<Contact> getAllContactByString(String string);
 }

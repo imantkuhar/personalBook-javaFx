@@ -68,12 +68,6 @@ public class StartFxApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         instance = this;
-//
-//        FXMLLoader fxmlMainLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/main_view.fxml"));
-//        mainViewController = fxmlMainLoader.<MainViewController>getController();
-//
-//        FXMLLoader fxmlAddContact = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_new_contact_view.fxml"));
-//        addContactController = fxmlAddContact.<AddContactController>getController();
 
         String MAIN_VIEW_ROOT = PropertiesHolder.getProperty("MAIN_VIEW_ROOT");
         String ADD_NEW_CONTACT_VIEW_ROOT = PropertiesHolder.getProperty("ADD_NEW_CONTACT_VIEW_ROOT");

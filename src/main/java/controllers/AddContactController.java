@@ -16,6 +16,7 @@ import validators.ContactValidator;
 
 import java.awt.*;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.PrimitiveIterator;
 import java.util.ResourceBundle;
 
@@ -45,7 +46,12 @@ public class AddContactController implements Initializable {
             public void handle(ActionEvent event) {
                 Contact newContact = new Contact(tfName.getText(), tfPhoneNumber.getText(), tfAddress.getText(), tfGroup.getText());
                 if (contactValidator.checkAllTextField(newContact)) {
-                    contactService.addContact(newContact);
+                    try {
+                        contactService.addContact(newContact);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
                     tfName.setText(""); tfPhoneNumber.setText(""); tfAddress.setText(""); tfGroup.setText("");
                 }
                 Stage mainStage = StartFxApp.getInstance().getMainStage();

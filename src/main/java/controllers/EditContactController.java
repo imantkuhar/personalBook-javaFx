@@ -18,6 +18,7 @@ import validators.ContactValidator;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -73,7 +74,11 @@ public class EditContactController implements Initializable {
                 contact.setAddress(tfAddress.getText());
                 contact.setGroup(tfGroup.getText());
                 if (contactValidator.checkAllTextField(contact)){
-                    contactService.updateContact(contact);
+                    try {
+                        contactService.updateContact(contact);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 Stage mainStage = StartFxApp.getInstance().getMainStage();

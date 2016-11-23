@@ -32,6 +32,7 @@
          <font>
             <Font size="12.0" />
          </font></Button>
+      <Button fx:id="btSearchByString" layoutX="290.0" layoutY="65.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="40.0" text="?" />
 
    </children>
 </Pane>
