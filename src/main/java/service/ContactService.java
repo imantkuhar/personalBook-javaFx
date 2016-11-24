@@ -10,11 +10,11 @@ import java.util.List;
  */
 public interface ContactService {
 
-    void addContact(Contact contact) throws SQLException;
+    void addContact(Contact contact);
 
-    void deleteContactById(int id) throws SQLException;
+    void deleteContactById(int id);
 
-    void updateContact(Contact contact) throws SQLException;
+    void updateContact(Contact contact);
 
     List<Contact> getAllContacts();
 

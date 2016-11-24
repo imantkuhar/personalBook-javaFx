@@ -74,11 +74,7 @@ public class EditContactController implements Initializable {
                 contact.setAddress(tfAddress.getText());
                 contact.setGroup(tfGroup.getText());
                 if (contactValidator.checkAllTextField(contact)){
-                    try {
-                        contactService.updateContact(contact);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    contactService.updateContact(contact);
                 }
 
                 Stage mainStage = StartFxApp.getInstance().getMainStage();

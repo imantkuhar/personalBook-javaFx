@@ -22,7 +22,6 @@ import utils.PropertiesHolder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -44,6 +43,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initContactListView();
+        setTextFindFindContactListener();
         setButtonAddContactListener();
         setButtonDeleteContactListener();
         setButtonEditContactListener();
@@ -81,12 +81,7 @@ public class MainViewController implements Initializable {
                 int id = tvContactList.getSelectionModel().getSelectedIndex();
                 if (id != -1) {
                     Contact contact = contactList.get(id);
-                    try {
-                        contactService.deleteContactById(contact.getId());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
+                    contactService.deleteContactById(contact.getId());
                     contactList.remove(id);
                 }
             }
@@ -172,6 +167,13 @@ public class MainViewController implements Initializable {
                 }
                 tfFindContact.setText("");
             }
+        });
+    }
+
+    private void setTextFindFindContactListener() {
+        tfFindContact.textProperty().addListener((observable, oldValue, newValue) -> {
+            contactList = FXCollections.observableArrayList(contactService.getAllContactByString(tfFindContact.getText()));
+            tvContactList.setItems(contactList);
         });
     }
 }

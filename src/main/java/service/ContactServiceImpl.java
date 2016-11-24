@@ -3,7 +3,6 @@ package service;
 import db.ContactDao;
 import model.Contact;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,15 +16,15 @@ public class ContactServiceImpl implements ContactService {
         contactDao = ContactDao.getInstance();
     }
 
-    public void addContact(Contact contact) throws SQLException {
+    public void addContact(Contact contact) {
         contactDao.addContact(contact);
     }
 
-    public void deleteContactById(int id) throws SQLException {
+    public void deleteContactById(int id) {
         contactDao.deleteContact(id);
     }
 
-    public void updateContact(Contact contact) throws SQLException {
+    public void updateContact(Contact contact) {
         contactDao.updateContact(contact);
     }
 
