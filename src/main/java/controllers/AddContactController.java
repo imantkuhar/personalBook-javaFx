@@ -10,14 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Contact;
 import service.ContactServiceImpl;
-import ui.StartFxApp;
-import utils.PropertiesHolder;
+import main.StartFxApp;
 import validators.ContactValidator;
 
 import java.awt.*;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.PrimitiveIterator;
 import java.util.ResourceBundle;
 
 /**

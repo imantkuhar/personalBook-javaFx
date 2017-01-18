@@ -16,28 +16,20 @@ public class ContactServiceImpl implements ContactService {
         contactDao = ContactDao.getInstance();
     }
 
-    public void addContact(Contact contact) {
-        contactDao.addContact(contact);
+    public boolean addContact(Contact contact) {
+        return contactDao.addContact(contact);
     }
 
-    public void deleteContactById(int id) {
-        contactDao.deleteContact(id);
+    public boolean deleteContactById(int id) {
+        return contactDao.deleteContact(id);
     }
 
-    public void updateContact(Contact contact) {
-        contactDao.updateContact(contact);
+    public boolean updateContact(Contact contact) {
+        return contactDao.updateContact(contact);
     }
 
     public List<Contact> getAllContacts() {
         return contactDao.getAllContacts();
-    }
-
-    public List<Contact> getAllContactByName(String stringForSearch) {
-        return contactDao.getAllContactByName(stringForSearch);
-    }
-
-    public List<Contact> getAllContactByPhoneNumber(String stringForSearch) {
-        return contactDao.getAllContactByPhoneNumber(stringForSearch);
     }
 
     public List<Contact> getAllContactByString(String stringForSearch) {

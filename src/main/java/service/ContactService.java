@@ -10,17 +10,13 @@ import java.util.List;
  */
 public interface ContactService {
 
-    void addContact(Contact contact);
+    boolean addContact(Contact contact);
 
-    void deleteContactById(int id);
+    boolean deleteContactById(int id);
 
-    void updateContact(Contact contact);
+    boolean updateContact(Contact contact);
 
     List<Contact> getAllContacts();
-
-    List<Contact> getAllContactByName(String string);
-
-    List<Contact> getAllContactByPhoneNumber(String string);
 
     List<Contact> getAllContactByString(String string);
 }

@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Contact;
 import service.ContactServiceImpl;
-import ui.StartFxApp;
+import main.StartFxApp;
 import utils.PropertiesHolder;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  */
 public class MainViewController implements Initializable {
     @FXML
-    private Button btAdd, btDelete, btEdit, btUpdateTable, btSearchByName, btSearchByNumber, btSearchByString;
+    private Button btAdd, btDelete, btEdit, btUpdateTable;
     @FXML
     private TextField tfFindContact;
     @FXML
@@ -43,14 +43,11 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initContactListView();
-        setTextFindFindContactListener();
+        setTextFieldFindContactListener();
         setButtonAddContactListener();
         setButtonDeleteContactListener();
-        setButtonEditContactListener();
         setButtonUpdateContactListListener();
-        setButtonSearchByNameContactListener();
-        setButtonSearchByNumberContactListener();
-        setButtonSearchByStingContactListener();
+        setButtonEditContactListener();
     }
 
     private void initContactListView() {
@@ -128,49 +125,7 @@ public class MainViewController implements Initializable {
         });
     }
 
-    private void setButtonSearchByNameContactListener() {
-        btSearchByName.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String stringForSearch = tfFindContact.getText();
-                if (!stringForSearch.isEmpty()) {
-                    contactList = FXCollections.observableArrayList(contactService.getAllContactByName(stringForSearch));
-                    tvContactList.setItems(contactList);
-                }
-                tfFindContact.setText("");
-            }
-        });
-    }
-
-    private void setButtonSearchByNumberContactListener() {
-        btSearchByNumber.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String stringForSearch = tfFindContact.getText();
-                if (!stringForSearch.isEmpty()) {
-                    contactList = FXCollections.observableArrayList(contactService.getAllContactByPhoneNumber(stringForSearch));
-                    tvContactList.setItems(contactList);
-                }
-                tfFindContact.setText("");
-            }
-        });
-    }
-
-    private void setButtonSearchByStingContactListener() {
-        btSearchByString.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String stringForSearch = tfFindContact.getText();
-                if (!stringForSearch.isEmpty()) {
-                    contactList = FXCollections.observableArrayList(contactService.getAllContactByString(stringForSearch));
-                    tvContactList.setItems(contactList);
-                }
-                tfFindContact.setText("");
-            }
-        });
-    }
-
-    private void setTextFindFindContactListener() {
+    private void setTextFieldFindContactListener() {
         tfFindContact.textProperty().addListener((observable, oldValue, newValue) -> {
             contactList = FXCollections.observableArrayList(contactService.getAllContactByString(tfFindContact.getText()));
             tvContactList.setItems(contactList);

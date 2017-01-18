@@ -1,6 +1,7 @@
 package db;
 
 import model.Contact;
+import utils.ConnectionService;
 import utils.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
@@ -14,11 +15,27 @@ import java.util.List;
  */
 public class ContactDao {
 
-    private Connection connection = null;
-    private Statement statement = null;
     private static ContactDao instance;
 
-    static String DB_URL = PropertiesHolder.getProperty("DB_URL");
+
+    public static final String CREATE_TABLE_CONTACT_PREPARED_STATEMENT = "CREATE TABLE IF NOT EXISTS CONTACT (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            " name VARCHAR(30), phoneNumber VARCHAR(10), address VARCHAR(15), groups VARCHAR(15), date VARCHAR (25))";
+
+    public static final String ADD_CONTACT_PREPARED_STATEMENT = "INSERT INTO CONTACT (name, phoneNumber, address, groups, date)" +
+            " VALUES (?, ?, ?, ?, ?)";
+
+    public static final String GET_CONTACT_ID_PREPARED_STATEMENT = "SELECT id FROM CONTACT ORDER BY id DESC LIMIT 1";
+
+    public static final String DELETE_CONTACT_PREPARED_STATEMENT = "DELETE FROM CONTACT WHERE id = ?";
+
+    public static final String EDIT_CONTACT_PREPARED_STATEMENT = "UPDATE CONTACT SET name = ?, phoneNumber = ?, address = ?, " +
+            "groups = ? WHERE id = ?";
+
+    public static final String GET_ALL_CONTACTS_PREPARED_STATEMENT = "SELECT * FROM CONTACT";
+
+    public static final String GET_ALL_CONTACTS_BY_STRING_PREPARED_STATEMENT = "SELECT * FROM CONTACT WHERE name LIKE ? " +
+            "OR phoneNumber LIKE ? OR address LIKE ? OR groups LIKE ?";
+
 
     public static ContactDao getInstance() {
         if (instance == null)
@@ -27,56 +44,21 @@ public class ContactDao {
     }
 
     private ContactDao() {
-        createConnection();
         createContactTable();
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void createConnection() {
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(DB_URL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void closeConnection() {
-        try {
-            connection.close();
+    public boolean createContactTable() {
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TABLE_CONTACT_PREPARED_STATEMENT)) {
+            preparedStatement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void createContactTable(){
-        String sqlRequest = "CREATE TABLE IF NOT EXISTS CONTACT " +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                " name VARCHAR(30), " +
-                " phoneNumber VARCHAR(10), " +
-                " address VARCHAR(15), " +
-                " groups VARCHAR(15), " +
-                " date VARCHAR (25))";
-        try {
-            statement = connection.createStatement();
-            statement.execute(sqlRequest);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void addContact(Contact contact){
+    public boolean addContact(Contact contact) {
         String name = contact.getName();
         String phoneNumber = contact.getPhoneNumber();
         String address = contact.getAddress();
@@ -86,120 +68,90 @@ public class ContactDao {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
         LocalDateTime dateTime = LocalDateTime.now();
         String formattedDateTime = dateTime.format(formatter);
-        try {
-            statement = connection.createStatement();
-            statement.execute("INSERT INTO  'CONTACT' ('name', 'phoneNumber', 'address', 'groups', 'date') " +
-                    "VALUES ('" + name + "','" + phoneNumber + "','" + address + "','" + group + "','" + formattedDateTime + "')");
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(ADD_CONTACT_PREPARED_STATEMENT);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(GET_CONTACT_ID_PREPARED_STATEMENT)){
 
-            String getContactIdResuest = "SELECT id FROM CONTACT ORDER BY id DESC LIMIT 1;";
-            ResultSet resultSet = statement.executeQuery(getContactIdResuest);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phoneNumber);
+            preparedStatement.setString(3, address);
+            preparedStatement.setString(4, group);
+            preparedStatement.setString(5, formattedDateTime);
+            preparedStatement.execute();
+
+            ResultSet resultSet = preparedStatement2.executeQuery();
             String contactId = resultSet.getString("id");
             contact.setId(Integer.parseInt(contactId));
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            return false;
         }
     }
 
-    public void deleteContact(int id) {
-        String request = "DELETE FROM CONTACT WHERE id = " + id + ";";
-        try {
-            statement = connection.createStatement();
-            statement.execute(request);
+    public boolean deleteContact(int id) {
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CONTACT_PREPARED_STATEMENT)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            return false;
         }
     }
 
-    public void updateContact(Contact contact) {
+    public boolean updateContact(Contact contact) {
         int id = contact.getId();
         String name = contact.getName();
         String phoneNumber = contact.getPhoneNumber();
         String address = contact.getAddress();
         String group = contact.getGroup();
-        String request = "UPDATE CONTACT SET " +
-                "name = '" + name + "', phoneNumber = '" + phoneNumber + "'," +
-                " address = '" + address + "', groups = '" + group + "' " +
-                "WHERE id = '" + id + "';";
-        try {
-            statement = connection.createStatement();
-            statement.execute(request);
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(EDIT_CONTACT_PREPARED_STATEMENT)) {
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phoneNumber);
+            preparedStatement.setString(3, address);
+            preparedStatement.setString(4, group);
+            preparedStatement.setInt(5, id);
+            preparedStatement.execute();
+
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            return false;
         }
     }
 
     public List<Contact> getAllContacts() {
-        String request = "SELECT * FROM CONTACT;";
-        List<Contact> contactList = getContactListByRequest(request);
-        return contactList;
-    }
-
-    public List<Contact> getAllContactByName(String stringForSearch) {
-        String fullStringForSearch = "%" + stringForSearch + "%";
-        String request = "SELECT * FROM 'CONTACT' WHERE name LIKE'" + fullStringForSearch + "';";
-        List<Contact> contactListByName = getContactListByRequest(request);
-        return contactListByName;
-    }
-
-    public List<Contact> getAllContactByPhoneNumber(String stringForSearch) {
-        String fullStringForSearch = "%" + stringForSearch + "%";
-        String request = "SELECT * FROM 'CONTACT' WHERE phoneNumber LIKE'" + fullStringForSearch + "';";
-        List<Contact> contactListByPhoneNumber = getContactListByRequest(request);
-        return contactListByPhoneNumber;
-    }
-
-    public List<Contact> getAllContactByString(String stringForSearch) {
-        String fullStringForSearch = "%" + stringForSearch + "%";
-        String request = "SELECT * FROM 'CONTACT' WHERE name LIKE'" + fullStringForSearch +
-                "' OR phoneNumber LIKE'" + fullStringForSearch +
-                "' OR address LIKE'" + fullStringForSearch +
-                "' OR groups LIKE'" + fullStringForSearch + "';";
-        List<Contact> contactListByString = getContactListByRequest(request);
-        return contactListByString;
-    }
-
-    public List<Contact> getContactListByRequest(String request) {
         List<Contact> contactList = null;
-
-        try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(request);
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CONTACTS_PREPARED_STATEMENT)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
             contactList = ResultSetConverter.convertResultSetToContactList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return contactList;
+    }
+
+    public List<Contact> getAllContactByString(String stringForSearch) {
+        List<Contact> contactListByString = null;
+        String fullStringForSearch = "%" + stringForSearch + "%";
+
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CONTACTS_BY_STRING_PREPARED_STATEMENT)) {
+            preparedStatement.setString(1, fullStringForSearch);
+            preparedStatement.setString(2, fullStringForSearch);
+            preparedStatement.setString(3, fullStringForSearch);
+            preparedStatement.setString(4, fullStringForSearch);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            contactListByString = ResultSetConverter.convertResultSetToContactList(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactListByString;
     }
 }
